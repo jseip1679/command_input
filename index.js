@@ -11,13 +11,12 @@
 var keypress = require('keypress')
   , tty = require('tty');
 
-/**
- * Expose the root CommandInput.
- */
 
-exports = module.exports = CommandInput;
+//Houses all public methods
+var CommandInput = {};
 
-CommandInput = {};
+//Houses all private methods
+var prompts = {};
 
 /**
  * Prompt for a `Number`.
@@ -27,11 +26,10 @@ CommandInput = {};
  * @api private
  */
 
-var promptForNumber = function(str, fn){
-  var self = this;
-  this.promptSingleLine(str, function parseNumber(val){
+prompts.promptForNumber = function(str, fn){
+  prompts.promptSingleLine(str, function parseNumber(val){
     val = Number(val);
-    if (isNaN(val)) return self.promptSingleLine(str + '(must be a number) ', parseNumber);
+    if (isNaN(val)) return prompts.promptSingleLine(str + '(must be a number) ', parseNumber);
     fn(val);
   });
 };
@@ -44,11 +42,10 @@ var promptForNumber = function(str, fn){
  * @api private
  */
 
-var promptForDate = function(str, fn){
-  var self = this;
-  this.promptSingleLine(str, function parseDate(val){
+prompts.promptForDate = function(str, fn){
+  prompts.promptSingleLine(str, function parseDate(val){
     val = new Date(val);
-    if (isNaN(val.getTime())) return self.promptSingleLine(str + '(must be a date) ', parseDate);
+    if (isNaN(val.getTime())) return promptSingleLine(str + '(must be a date) ', parseDate);
     fn(val);
   });
 };
@@ -63,10 +60,9 @@ var promptForDate = function(str, fn){
  * @api private
  */
 
- var promptForRegexp = function(str, pattern, fn){
-  var self = this;
-  this.promptSingleLine(str, function parseRegexp(val){
-    if(!pattern.test(val)) return self.promptSingleLine(str + '(regular expression mismatch) ', parseRegexp);
+ prompts.promptForRegexp = function(str, pattern, fn){
+  prompts.promptSingleLine(str, function parseRegexp(val){
+    if(!pattern.test(val)) return promptSingleLine(str + '(regular expression mismatch) ', parseRegexp);
     fn(val);
   });
 };
@@ -80,12 +76,12 @@ var promptForDate = function(str, fn){
  * @api private
  */
 
- var promptSingleLine = function(str, fn){
+ prompts.promptSingleLine = function(str, fn){
   // determine if the 2nd argument is a regular expression
   if (arguments[1].global !== undefined && arguments[1].multiline !== undefined) {
-    return this.promptForRegexp(str, arguments[1], arguments[2]);
+    return prompts.promptForRegexp(str, arguments[1], arguments[2]);
   } else if ('function' == typeof arguments[2]) {
-    return this['promptFor' + (fn.name || fn)](str, arguments[2]);
+    return prompts['promptFor' + (fn.name || fn)](str, arguments[2]);
   }
 
   process.stdout.write(str);
@@ -103,7 +99,7 @@ var promptForDate = function(str, fn){
  * @api private
  */
 
-var promptMultiLine = function(str, fn){
+prompts.promptMultiLine = function(str, fn){
   var buf = [];
   console.log(str);
   process.stdin.setEncoding('utf8');
@@ -142,10 +138,9 @@ var promptMultiLine = function(str, fn){
  */
 
 CommandInput.prompt = function(str, fn){
-  var self = this;
   if ('string' == typeof str) {
-    if (/ $/.test(str)) return this.promptSingleLine.apply(this, arguments);
-    this.promptMultiLine(str, fn);
+    if (/ $/.test(str)) return prompts.promptSingleLine.apply(this, arguments);
+    prompts.promptMultiLine(str, fn);
   } else {
     var keys = Object.keys(str)
       , obj = {};
@@ -155,7 +150,7 @@ CommandInput.prompt = function(str, fn){
         , label = str[key];
 
       if (!key) return fn(obj);
-      self.prompt(label, function(val){
+      CommandInput.prompt(label, function(val){
         obj[key] = val;
         next();
       });
@@ -323,3 +318,10 @@ CommandInput.choose = function(list, index, fn){
 var parseBool = function(str) {
   return /^y|yes|ok|true$/i.test(str);
 };
+
+
+/**
+ * Expose the root CommandInput.
+ */
+
+exports = module.exports = CommandInput;
