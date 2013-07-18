@@ -185,8 +185,7 @@ CommandInput.prompt = function(str, fn){
  */
 
 CommandInput.password = function(str, mask, fn){
-  var self = this
-    , buf = '';
+  var buf = '';
 
   // default mask
   if ('function' == typeof mask) {
@@ -213,7 +212,7 @@ CommandInput.password = function(str, mask, fn){
       process.stdin.pause();
       process.stdin.removeAllListeners('keypress');
       setRawMode(false);
-      if (!buf.trim().length) return self.password(str, mask, fn);
+      if (!buf.trim().length) return CommandInput.password(str, mask, fn);
       fn(buf);
       return;
     }
@@ -245,11 +244,10 @@ CommandInput.password = function(str, mask, fn){
 
 
 CommandInput.confirm = function(str, fn, verbose){
-  var self = this;
-  this.prompt(str, function(ok){
+  CommandInput.prompt(str, function(ok){
     if (!ok.trim()) {
       if (!verbose) str += '(yes or no) ';
-      return self.confirm(str, fn, true);
+      return CommandInput.confirm(str, fn, true);
     }
     fn(parseBool(ok));
   });
@@ -275,8 +273,7 @@ CommandInput.confirm = function(str, fn, verbose){
  */
 
 CommandInput.choose = function(list, index, fn){
-  var self = this
-    , hasDefault = 'number' == typeof index;
+  var hasDefault = 'number' == typeof index;
 
   if (!hasDefault) {
     fn = index;
@@ -292,7 +289,7 @@ CommandInput.choose = function(list, index, fn){
   });
 
   function again() {
-    self.prompt('  : ', function(val){
+    CommandInput.prompt('  : ', function(val){
       val = parseInt(val, 10) - 1;
       if (hasDefault && isNaN(val)) val = index;
 
