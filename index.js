@@ -8,35 +8,16 @@
  * Module dependencies.
  */
 
-var EventEmitter = require('events').EventEmitter
-  , keypress = require('keypress')
+var keypress = require('keypress')
   , tty = require('tty');
 
 /**
- * Expose the root command.
+ * Expose the root CommandInput.
  */
 
-exports = module.exports = new CommandInput;
+exports = module.exports = CommandInput;
 
-/**
- * Expose `CommandInput  `.
- */
-
-exports.CommandInput = CommandInput;
-
-/**
- * Initialize a new `CommandInput`.
- *
- * @param {String} name
- * @api public
- */
-
-function CommandInput(name) {
-  // Noop
-}
-
-CommandInput.prototype.__proto__ = EventEmitter.prototype;
-
+CommandInput = {};
 
 /**
  * Prompt for a `Number`.
@@ -46,7 +27,7 @@ CommandInput.prototype.__proto__ = EventEmitter.prototype;
  * @api private
  */
 
-CommandInput.prototype.promptForNumber = function(str, fn){
+var promptForNumber = function(str, fn){
   var self = this;
   this.promptSingleLine(str, function parseNumber(val){
     val = Number(val);
@@ -63,7 +44,7 @@ CommandInput.prototype.promptForNumber = function(str, fn){
  * @api private
  */
 
-CommandInput.prototype.promptForDate = function(str, fn){
+var promptForDate = function(str, fn){
   var self = this;
   this.promptSingleLine(str, function parseDate(val){
     val = new Date(val);
@@ -82,7 +63,7 @@ CommandInput.prototype.promptForDate = function(str, fn){
  * @api private
  */
 
-CommandInput.prototype.promptForRegexp = function(str, pattern, fn){
+ var promptForRegexp = function(str, pattern, fn){
   var self = this;
   this.promptSingleLine(str, function parseRegexp(val){
     if(!pattern.test(val)) return self.promptSingleLine(str + '(regular expression mismatch) ', parseRegexp);
@@ -99,7 +80,7 @@ CommandInput.prototype.promptForRegexp = function(str, pattern, fn){
  * @api private
  */
 
-CommandInput.prototype.promptSingleLine = function(str, fn){
+ var promptSingleLine = function(str, fn){
   // determine if the 2nd argument is a regular expression
   if (arguments[1].global !== undefined && arguments[1].multiline !== undefined) {
     return this.promptForRegexp(str, arguments[1], arguments[2]);
@@ -122,7 +103,7 @@ CommandInput.prototype.promptSingleLine = function(str, fn){
  * @api private
  */
 
-CommandInput.prototype.promptMultiLine = function(str, fn){
+var promptMultiLine = function(str, fn){
   var buf = [];
   console.log(str);
   process.stdin.setEncoding('utf8');
@@ -160,7 +141,7 @@ CommandInput.prototype.promptMultiLine = function(str, fn){
  * @api public
  */
 
-CommandInput.prototype.prompt = function(str, fn){
+CommandInput.prompt = function(str, fn){
   var self = this;
   if ('string' == typeof str) {
     if (/ $/.test(str)) return this.promptSingleLine.apply(this, arguments);
@@ -208,7 +189,7 @@ CommandInput.prototype.prompt = function(str, fn){
  * @api public
  */
 
-CommandInput.prototype.password = function(str, mask, fn){
+CommandInput.password = function(str, mask, fn){
   var self = this
     , buf = '';
 
@@ -268,7 +249,7 @@ CommandInput.prototype.password = function(str, mask, fn){
  */
 
 
-CommandInput.prototype.confirm = function(str, fn, verbose){
+CommandInput.confirm = function(str, fn, verbose){
   var self = this;
   this.prompt(str, function(ok){
     if (!ok.trim()) {
@@ -298,7 +279,7 @@ CommandInput.prototype.confirm = function(str, fn, verbose){
  * @api public
  */
 
-CommandInput.prototype.choose = function(list, index, fn){
+CommandInput.choose = function(list, index, fn){
   var self = this
     , hasDefault = 'number' == typeof index;
 
@@ -339,6 +320,6 @@ CommandInput.prototype.choose = function(list, index, fn){
  * @api private
  */
 
-function parseBool(str) {
+var parseBool = function(str) {
   return /^y|yes|ok|true$/i.test(str);
-}
+};
