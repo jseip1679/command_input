@@ -1,27 +1,8 @@
-var command_input = require('../')
+var spawn = require('child_process').spawn
   , should = require('should');
 
-var called = false;
+var child = spawn('node',['test.prompt.helper.js']);
 
-var cb =  function(obj){
-  called = true;
-};
-
-command_input.prompt('All your base are belong to us:', cb);
-
-
-process.stdin.on('data',function(chunk){
-  console.log('Got Chunk', chunk);
+child.stdout.on('data', function (data) {
+  data.toString().should.equal("All your base are belong to us:\n");
 });
-
-process.stdin.resume();
-
-
-
-process.stdin.write("'Hello from command_input' \n \n");
-// process.stdin.setRawMode(true);
-process.stdin.setEncoding('utf8');
-
-setTimeout(function(){
-      called.should.equal(true);
-},7000);
