@@ -17,7 +17,3 @@ command_input.should.not.have.property('promptMultiLine');
 command_input.should.not.have.property('promptForRegexp');
 command_input.should.not.have.property('promptForDate');
 command_input.should.not.have.property('promptForNumber');
-
-
-
-

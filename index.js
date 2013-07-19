@@ -12,10 +12,10 @@ var keypress = require('keypress')
   , tty = require('tty');
 
 
-//Houses all public methods
+// all public methods
 var CommandInput = {};
 
-//Houses all private methods
+// all private methods
 var prompts = {};
 
 /**
@@ -45,7 +45,7 @@ prompts.promptForNumber = function(str, fn){
 prompts.promptForDate = function(str, fn){
   prompts.promptSingleLine(str, function parseDate(val){
     val = new Date(val);
-    if (isNaN(val.getTime())) return promptSingleLine(str + '(must be a date) ', parseDate);
+    if (isNaN(val.getTime())) return prompts.promptSingleLine(str + '(must be a date) ', parseDate);
     fn(val);
   });
 };
@@ -62,7 +62,7 @@ prompts.promptForDate = function(str, fn){
 
  prompts.promptForRegexp = function(str, pattern, fn){
   prompts.promptSingleLine(str, function parseRegexp(val){
-    if(!pattern.test(val)) return promptSingleLine(str + '(regular expression mismatch) ', parseRegexp);
+    if(!pattern.test(val)) return prompts.promptSingleLine(str + '(regular expression mismatch) ', parseRegexp);
     fn(val);
   });
 };
