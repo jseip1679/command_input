@@ -199,9 +199,13 @@ CommandInput.password = function(str, mask, fn){
     if (process.stdin.setRawMode) {
       process.stdin.setRawMode(mode);
     } else {
-      tty.setRawMode(mode);
+      //only do this if we're in a child process
+      if(process.stdout.isTTY){
+        tty.setRawMode(mode);
+      }
     }
   };
+
   setRawMode(true);
   process.stdout.write(str);
 
