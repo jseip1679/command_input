@@ -4,9 +4,10 @@ var spawn = require('child_process').spawn
 var child = spawn('node',['test.password.helper.js']);
 
 child.stdout.on('data', function (data) {
-  data.toString().should.equal("Passsssword:\n");
+  data.toString().should.equal("Password:");
+  child.kill();
 });
 
 child.stderr.on('data', function(data){
-  console.log(data.toString());
+  throw new Error(data);
 });
