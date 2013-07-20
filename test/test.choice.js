@@ -8,6 +8,10 @@ child.stdout.on('data', function (data) {
   output += data.toString();
 });
 
+child.stderr.on('data', function(data){
+  throw new Error(data);
+});
+
 setTimeout(function(){
   output.should.equal('  1) tobi\n  2) loki\n  3) jane\n  4) manny\n  5) luna\n  : ');
   child.kill();

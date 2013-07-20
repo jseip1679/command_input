@@ -7,3 +7,7 @@ child.stdout.on('data', function (data) {
   data.toString().should.equal("All your base are belong to us:\n");
   child.kill();
 });
+
+child.stderr.on('data', function(data){
+  throw new Error(data);
+});
