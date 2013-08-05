@@ -26,5 +26,5 @@ child.on('exit', function(){
 //Adding force kill for travis-CI
 setTimeout(function(){
   child.kill();
-  process.kill();
+  process.exit();
 }, 1000);

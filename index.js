@@ -1,6 +1,5 @@
 /*!
  * command_input
- * Copyright(c) 2013 TJ Holowaychuk <tj@vision-media.ca>
  * MIT Licensed
  */
 
