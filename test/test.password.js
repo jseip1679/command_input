@@ -5,7 +5,7 @@ var child = spawn('node',['test.password.helper.js']);
 
 child.stdout.on('data', function (data) {
   data.toString().should.equal("Password:");
-  child.kill();
+  child.stdin.end(); // redundant but necessary for Travis-ci
 });
 
 child.stderr.on('data', function(data){

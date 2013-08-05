@@ -12,7 +12,7 @@ child.stdout.on('data', function (data) {
   output += data.toString();
 });
 
-child.stdin.write('1\n');
+child.stdin.end('1\n\n');
 
 child.stderr.on('data', function(data){
   throw new Error(data);

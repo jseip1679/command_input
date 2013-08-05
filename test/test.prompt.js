@@ -5,6 +5,7 @@ var child = spawn('node',['test.prompt.helper.js']);
 
 child.stdout.on('data', function (data) {
   data.toString().should.equal("All your base are belong to us:\n");
+  child.stdin.end(); // redundant but necessary for Travis-ci
   child.kill();
 });
 
