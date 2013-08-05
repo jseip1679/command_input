@@ -21,3 +21,8 @@ child.stderr.on('data', function(data){
 child.on('exit', function(){
   output.should.equal('  1) tobi\n  2) loki\n  3) jane\n  4) manny\n  5) luna\n  : you chose 1 "tobi"\n');
 });
+
+//Adding force kill for travis-CI 
+setTimeout(function(){
+  child.kill();
+}, 1000);
