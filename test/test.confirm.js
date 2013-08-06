@@ -1,15 +1,15 @@
 var spawn = require('child_process').spawn
   , should = require('should');
 
-var child = spawn('node',['test.confirm.helper.js']);
+var child = spawn('node',['./test/test.confirm.helper.js']);
 
 
 child.stdout.on('data', function (data) {
   data.toString().should.equal("Are you sure you really want to do that?:\n");
-  child.stdin.end(); // redundant but necessary for Travis-ci
   child.kill();
 });
 
 child.stderr.on('data', function(data){
-  throw new Error(data);
+  console.log(data.toString());
+  throw new Error("Child Process failed during testing");
 });
