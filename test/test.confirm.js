@@ -1,7 +1,7 @@
 var spawn = require('child_process').spawn
   , should = require('should');
 
-var child = spawn('node',['./test/test.confirm.helper.js']);
+var child = spawn('node',['./test_helper/test.confirm.helper.js']);
 
 
 child.stdout.on('data', function (data) {

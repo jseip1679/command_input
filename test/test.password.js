@@ -1,7 +1,7 @@
 var spawn = require('child_process').spawn
   , should = require('should');
 
-var child = spawn('node',['./test/test.password.helper.js']);
+var child = spawn('node',['./test_helper/test.password.helper.js']);
 
 child.stdout.on('data', function (data) {
   data.toString().should.equal("Password:");
