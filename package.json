@@ -1,6 +1,6 @@
 {
     "name": "command_input"
-  , "version": "0.0.1"
+  , "version": "0.0.2"
   , "description": "a lightweight solution for node.js command-line input"
   , "keywords": ["command", "option", "parser", "prompt", "stdin"]
   , "authors": "Jake Seip <jake.seip@gmail.com>, TJ Holowaychuk <tj@vision-media.ca>"
