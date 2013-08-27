@@ -1,5 +1,6 @@
 # Command_Input.js
 
+[![Build Status](https://travis-ci.org/jseip1679/command_input.png?branch=master)](https://travis-ci.org/jseip1679/command_input)
 
 ## Installation
 
